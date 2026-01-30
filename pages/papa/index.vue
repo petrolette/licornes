@@ -37,8 +37,8 @@ const ALIEN_COLS = 11
 const ALIEN_ROWS = 5
 const ALIEN_WIDTH = 24
 const ALIEN_HEIGHT = 16
-const ALIEN_SPACING_X = 16
-const ALIEN_SPACING_Y = 16
+const ALIEN_SPACING_X = 12  // Moins d'espace = plus de marge sur les côtés
+const ALIEN_SPACING_Y = 14
 const PLAYER_WIDTH = 26
 const PLAYER_Y = GAME_HEIGHT - 40
 
@@ -73,17 +73,21 @@ const alienPoints: Record<AlienType, number> = {
   octopus: 10
 }
 
-// Initialiser les aliens
+// Initialiser les aliens (centrés avec plus d'espace sur les côtés)
 const initAliens = () => {
   const newAliens: Alien[] = []
   let id = 0
   const types: AlienType[] = ['squid', 'crab', 'crab', 'octopus', 'octopus']
 
+  // Calculer la largeur totale des aliens pour les centrer
+  const totalWidth = ALIEN_COLS * (ALIEN_WIDTH + ALIEN_SPACING_X) - ALIEN_SPACING_X
+  const startX = (GAME_WIDTH - totalWidth) / 2
+
   for (let row = 0; row < ALIEN_ROWS; row++) {
     for (let col = 0; col < ALIEN_COLS; col++) {
       newAliens.push({
         id: id++,
-        x: col * (ALIEN_WIDTH + ALIEN_SPACING_X) + 30,
+        x: col * (ALIEN_WIDTH + ALIEN_SPACING_X) + startX,
         y: row * (ALIEN_HEIGHT + ALIEN_SPACING_Y) + 60,
         type: types[row],
         alive: true
@@ -217,9 +221,9 @@ const update = () => {
       alien.x += alienDirection * (6 + Math.floor(level.value / 2))
     })
 
-    // Vérifier les bords
+    // Vérifier les bords (plus de marge pour éviter de descendre trop souvent)
     aliveAliens.forEach(alien => {
-      if (alien.x <= 10 || alien.x >= GAME_WIDTH - ALIEN_WIDTH - 10) {
+      if (alien.x <= 5 || alien.x >= GAME_WIDTH - ALIEN_WIDTH - 5) {
         shouldDescend = true
       }
     })
