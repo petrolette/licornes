@@ -1,0 +1,43 @@
+{
+  "name": "licornes",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "typecheck": "nuxt typecheck",
+    "optimize-images": "node scripts/optimize-images.mjs"
+  },
+  "dependencies": {
+    "gsap": "^3.12.0",
+    "howler": "^2.2.4",
+    "nuxt": "^3.14.0",
+    "vue": "^3.5.0",
+    "vue-router": "^4.4.0"
+  },
+  "devDependencies": {
+    "@nuxt/eslint": "^0.5.0",
+    "@nuxt/image": "^1.8.0",
+    "@nuxtjs/tailwindcss": "^6.12.0",
+    "@types/howler": "^2.2.0",
+    "@vueuse/core": "^11.0.0",
+    "@vueuse/nuxt": "^11.0.0",
+    "class-variance-authority": "^0.7.0",
+    "clsx": "^2.1.0",
+    "eslint": "^9.0.0",
+    "glob": "^10.3.0",
+    "lucide-vue-next": "^0.454.0",
+    "radix-vue": "^1.9.0",
+    "shadcn-nuxt": "^0.10.0",
+    "sharp": "^0.33.0",
+    "tailwind-merge": "^2.5.0",
+    "tailwindcss": "^3.4.0",
+    "tailwindcss-animate": "^1.0.7",
+    "typescript": "^5.6.0"
+  }
+}

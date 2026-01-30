@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <defs>
+    <linearGradient id="horn" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FFD700"/>
+      <stop offset="100%" style="stop-color:#FFA500"/>
+    </linearGradient>
+    <linearGradient id="mane" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#FF69B4"/>
+      <stop offset="50%" style="stop-color:#9B59B6"/>
+      <stop offset="100%" style="stop-color:#4D96FF"/>
+    </linearGradient>
+  </defs>
+  <!-- Tête de licorne -->
+  <ellipse cx="50" cy="55" rx="30" ry="35" fill="white" stroke="#FFB6C1" stroke-width="2"/>
+  <!-- Oreille -->
+  <path d="M 25 35 Q 20 20 30 25 Q 35 30 30 40" fill="white" stroke="#FFB6C1" stroke-width="2"/>
+  <!-- Corne magique -->
+  <path d="M 50 20 L 45 5 L 55 5 Z" fill="url(#horn)" stroke="#FFD700" stroke-width="1"/>
+  <line x1="47" y1="18" x2="47" y2="8" stroke="#FFF8DC" stroke-width="1"/>
+  <line x1="50" y1="16" x2="50" y2="6" stroke="#FFF8DC" stroke-width="1"/>
+  <line x1="53" y1="18" x2="53" y2="8" stroke="#FFF8DC" stroke-width="1"/>
+  <!-- Crinière arc-en-ciel -->
+  <path d="M 30 30 Q 15 40 20 55 Q 15 70 25 80" fill="none" stroke="url(#mane)" stroke-width="8" stroke-linecap="round"/>
+  <!-- Oeil -->
+  <ellipse cx="40" cy="50" rx="5" ry="6" fill="#333"/>
+  <ellipse cx="38" cy="48" rx="2" ry="2" fill="white"/>
+  <!-- Cils -->
+  <path d="M 35 45 Q 33 42 35 40" fill="none" stroke="#333" stroke-width="1.5" stroke-linecap="round"/>
+  <path d="M 38 44 Q 38 40 40 38" fill="none" stroke="#333" stroke-width="1.5" stroke-linecap="round"/>
+  <!-- Joue rose -->
+  <ellipse cx="35" cy="60" rx="6" ry="4" fill="#FFB6C1" opacity="0.6"/>
+  <!-- Museau -->
+  <ellipse cx="55" cy="70" rx="12" ry="8" fill="#FFF0F5" stroke="#FFB6C1" stroke-width="1"/>
+  <!-- Narine -->
+  <ellipse cx="58" cy="68" rx="2" ry="1.5" fill="#FFB6C1"/>
+  <!-- Étoile décorative -->
+  <path d="M 70 25 L 72 30 L 78 30 L 73 34 L 75 40 L 70 36 L 65 40 L 67 34 L 62 30 L 68 30 Z" fill="#FFD700"/>
+</svg>

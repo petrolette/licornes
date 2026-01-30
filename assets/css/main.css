@@ -1,0 +1,198 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Fond magique */
+    --background: 330 100% 98%;
+    --foreground: 270 50% 20%;
+
+    /* Couleurs Shadcn adaptées au thème */
+    --primary: 330 100% 71%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 270 45% 54%;
+    --secondary-foreground: 0 0% 100%;
+
+    --muted: 270 20% 90%;
+    --muted-foreground: 270 20% 40%;
+
+    --accent: 174 72% 56%;
+    --accent-foreground: 0 0% 100%;
+
+    --border: 330 30% 85%;
+    --input: 330 30% 90%;
+    --ring: 330 100% 71%;
+    --radius: 1.5rem;
+  }
+
+  * {
+    @apply border-border;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-gradient-to-br from-rose-50 via-violet-50 to-ciel font-body text-foreground;
+    min-height: 100vh;
+    min-height: 100dvh;
+    overflow-x: hidden;
+  }
+
+  /* Sélection en rose */
+  ::selection {
+    @apply bg-rose/30;
+  }
+}
+
+@layer components {
+  /* Bouton magique pour enfants */
+  .btn-magic {
+    @apply relative overflow-hidden;
+    @apply px-8 py-6 min-h-touch min-w-[120px];
+    @apply text-xl font-bold font-magic text-white;
+    @apply bg-gradient-to-br from-rose to-rose-dark;
+    @apply rounded-bubble shadow-magic;
+    @apply transition-all duration-300 ease-out;
+    @apply active:scale-95 hover:scale-105 hover:shadow-magic-lg;
+    @apply focus:outline-none focus:ring-4 focus:ring-rose/50;
+  }
+
+  .btn-magic-violet {
+    @apply bg-gradient-to-br from-violet to-violet-dark shadow-violet;
+    @apply focus:ring-violet/50;
+  }
+
+  .btn-magic-turquoise {
+    @apply bg-gradient-to-br from-turquoise to-turquoise-dark;
+    @apply shadow-[0_10px_40px_-10px_rgba(64,224,208,0.4)];
+    @apply focus:ring-turquoise/50;
+  }
+
+  /* Carte profil enfant */
+  .profile-card {
+    @apply relative flex flex-col items-center justify-center;
+    @apply p-8 min-h-[280px] w-full max-w-[300px];
+    @apply bg-white/80 backdrop-blur-sm;
+    @apply rounded-[3rem] shadow-magic;
+    @apply transition-all duration-500 ease-out;
+    @apply cursor-pointer select-none;
+    @apply hover:scale-105 hover:shadow-magic-lg;
+    @apply active:scale-95;
+  }
+
+  .profile-card-andrea {
+    @apply hover:bg-rose-50;
+  }
+
+  .profile-card-suzanne {
+    @apply hover:bg-violet-50;
+  }
+
+  /* Titre arc-en-ciel */
+  .text-rainbow {
+    background: linear-gradient(
+      90deg,
+      #FF6B6B 0%,
+      #FFA500 17%,
+      #FFD93D 33%,
+      #6BCB77 50%,
+      #4D96FF 67%,
+      #9B59B6 83%,
+      #FF6B6B 100%
+    );
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: rainbow 3s linear infinite;
+  }
+
+  /* Étoiles scintillantes */
+  .sparkle {
+    @apply absolute w-2 h-2 bg-dore rounded-full;
+    @apply animate-sparkle;
+  }
+
+  /* Nuages décoratifs */
+  .cloud {
+    @apply absolute bg-white rounded-full opacity-80;
+    filter: blur(2px);
+  }
+
+  /* Menu activité pour enfants */
+  .activity-card {
+    @apply flex flex-col items-center justify-center gap-4;
+    @apply p-6 min-h-[180px] w-full;
+    @apply bg-white/90 backdrop-blur-sm;
+    @apply rounded-magic shadow-lg;
+    @apply transition-all duration-300;
+    @apply cursor-pointer select-none;
+    @apply hover:scale-105 hover:-translate-y-2;
+    @apply active:scale-95;
+  }
+
+  /* Icône ronde pour activités */
+  .activity-icon {
+    @apply flex items-center justify-center;
+    @apply w-20 h-20 rounded-full;
+    @apply text-4xl;
+    @apply transition-transform duration-300;
+  }
+
+  /* Conteneur plein écran pour jeux */
+  .game-container {
+    @apply fixed inset-0 z-50;
+    @apply bg-gradient-to-br from-rose-50 via-violet-50 to-ciel;
+  }
+
+  /* Bouton retour */
+  .btn-back {
+    @apply fixed top-4 left-4 z-50;
+    @apply flex items-center justify-center;
+    @apply w-14 h-14 rounded-full;
+    @apply bg-white/90 backdrop-blur-sm shadow-lg;
+    @apply text-2xl;
+    @apply transition-all duration-300;
+    @apply hover:scale-110 active:scale-95;
+  }
+}
+
+@layer utilities {
+  /* Pas de scroll horizontal */
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Animation flottante décalée */
+  .animate-float-delay-1 {
+    animation-delay: 0.5s;
+  }
+  .animate-float-delay-2 {
+    animation-delay: 1s;
+  }
+  .animate-float-delay-3 {
+    animation-delay: 1.5s;
+  }
+
+  /* Fond étoilé */
+  .bg-stars {
+    background-image:
+      radial-gradient(2px 2px at 20px 30px, #FFD700, transparent),
+      radial-gradient(2px 2px at 40px 70px, #FFD700, transparent),
+      radial-gradient(2px 2px at 50px 160px, #FFD700, transparent),
+      radial-gradient(2px 2px at 90px 40px, #FFD700, transparent),
+      radial-gradient(2px 2px at 130px 80px, #FFD700, transparent),
+      radial-gradient(2px 2px at 160px 120px, #FFD700, transparent);
+    background-repeat: repeat;
+    background-size: 200px 200px;
+  }
+}
