@@ -146,12 +146,26 @@ const currentSong = ref<string | null>(null)
 const isPlaying = ref(false)
 let audioContext: AudioContext | null = null
 let currentTimeouts: NodeJS.Timeout[] = []
+let activeOscillators: OscillatorNode[] = []
 
 const stopCurrentSong = () => {
   isPlaying.value = false
   currentSong.value = null
+
+  // Arrêter tous les timeouts
   currentTimeouts.forEach(t => clearTimeout(t))
   currentTimeouts = []
+
+  // Arrêter immédiatement tous les oscillateurs actifs
+  activeOscillators.forEach(osc => {
+    try {
+      osc.stop(0)
+      osc.disconnect()
+    } catch (e) {
+      // Oscillateur déjà arrêté
+    }
+  })
+  activeOscillators = []
 }
 
 // Créer un son de type xylophone/carillon plus riche
@@ -222,6 +236,9 @@ const playNote = (freq: number, startTime: number, duration: number) => {
 
   masterGain.gain.setValueAtTime(0.8, now)
 
+  // Ajouter à la liste des oscillateurs actifs
+  activeOscillators.push(osc1, osc2, osc3)
+
   // Démarrage et arrêt
   osc1.start(now)
   osc2.start(now)
@@ -229,6 +246,12 @@ const playNote = (freq: number, startTime: number, duration: number) => {
   osc1.stop(now + durationSec + 0.1)
   osc2.stop(now + durationSec + 0.1)
   osc3.stop(now + durationSec + 0.1)
+
+  // Nettoyer les oscillateurs terminés
+  const cleanupTime = (now + durationSec + 0.2) * 1000
+  setTimeout(() => {
+    activeOscillators = activeOscillators.filter(o => o !== osc1 && o !== osc2 && o !== osc3)
+  }, cleanupTime - (audioContext?.currentTime || 0) * 1000)
 }
 
 const playSong = (songId: string) => {
@@ -283,6 +306,11 @@ const playSong = (songId: string) => {
 
 onUnmounted(() => {
   stopCurrentSong()
+  // Fermer le contexte audio
+  if (audioContext) {
+    audioContext.close()
+    audioContext = null
+  }
 })
 </script>
 

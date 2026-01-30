@@ -199,17 +199,22 @@ const update = () => {
   if (!isPlaying.value) return
   const now = Date.now()
 
-  // Animation des aliens
-  if (now - lastAlienMove > Math.max(50, 500 - level.value * 30 - (55 - aliens.value.filter(a => a.alive).length) * 8)) {
+  // Animation des aliens (plus lent)
+  const aliveCount = aliens.value.filter(a => a.alive).length
+  const baseInterval = 800 // Intervalle de base plus lent
+  const speedBonus = Math.max(0, (55 - aliveCount) * 5) // Accélère quand moins d'aliens
+  const levelBonus = (level.value - 1) * 20
+
+  if (now - lastAlienMove > Math.max(100, baseInterval - speedBonus - levelBonus)) {
     lastAlienMove = now
     animFrame.value = 1 - animFrame.value
 
-    // Déplacer les aliens
+    // Déplacer les aliens (mouvement plus petit)
     let shouldDescend = false
     const aliveAliens = aliens.value.filter(a => a.alive)
 
     aliveAliens.forEach(alien => {
-      alien.x += alienDirection * (10 + level.value)
+      alien.x += alienDirection * (6 + Math.floor(level.value / 2))
     })
 
     // Vérifier les bords
@@ -222,8 +227,8 @@ const update = () => {
     if (shouldDescend) {
       alienDirection *= -1
       aliveAliens.forEach(alien => {
-        alien.y += 16
-        if (alien.y >= PLAYER_Y - 30) {
+        alien.y += 10 // Descente plus petite
+        if (alien.y >= PLAYER_Y - 50) {
           endGame()
         }
       })
@@ -253,16 +258,16 @@ const update = () => {
     .map(b => ({ ...b, y: b.y - 10 }))
     .filter(b => b.y > 0)
 
-  // Déplacer les balles aliens
+  // Déplacer les balles aliens (plus lent)
   alienBullets.value = alienBullets.value
-    .map(b => ({ ...b, y: b.y + 4 }))
+    .map(b => ({ ...b, y: b.y + 3 }))
     .filter(b => b.y < GAME_HEIGHT)
 
-  // Tir alien
-  if (now - lastAlienShot > 1000 - level.value * 50) {
+  // Tir alien (moins fréquent)
+  if (now - lastAlienShot > 1500 - level.value * 30) {
     lastAlienShot = now
     const aliveAliens = aliens.value.filter(a => a.alive)
-    if (aliveAliens.length > 0 && Math.random() < 0.3 + level.value * 0.05) {
+    if (aliveAliens.length > 0 && Math.random() < 0.2 + level.value * 0.03) {
       // Trouver les aliens du bas de chaque colonne
       const columns: { [col: number]: Alien } = {}
       aliveAliens.forEach(alien => {
