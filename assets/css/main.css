@@ -150,15 +150,15 @@
     @apply bg-gradient-to-br from-rose-50 via-violet-50 to-ciel;
   }
 
-  /* Bouton retour */
+  /* Bouton retour - GRAND et visible */
   .btn-back {
     @apply fixed top-4 left-4 z-50;
     @apply flex items-center justify-center;
-    @apply w-14 h-14 rounded-full;
-    @apply bg-white/90 backdrop-blur-sm shadow-lg;
-    @apply text-2xl;
+    @apply w-16 h-16 sm:w-20 sm:h-20 rounded-full;
+    @apply bg-white shadow-xl border-4 border-rose-200;
+    @apply text-3xl sm:text-4xl;
     @apply transition-all duration-300;
-    @apply hover:scale-110 active:scale-95;
+    @apply hover:scale-110 hover:shadow-2xl hover:border-violet-300 active:scale-95;
   }
 }
 

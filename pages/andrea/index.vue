@@ -56,88 +56,55 @@ const decorations = [
 
 <template>
   <NuxtLayout>
-    <div class="relative min-h-screen min-h-dvh px-4 py-8 overflow-hidden bg-gradient-to-b from-rose-50 via-pink-50/50 to-white">
+    <div class="relative flex flex-col items-center justify-center h-screen h-dvh px-4 overflow-hidden bg-gradient-to-b from-rose-50 via-pink-50/50 to-white">
 
-      <!-- Décorations flottantes -->
-      <div
-        v-for="(dec, i) in decorations"
-        :key="i"
-        class="fixed text-3xl animate-float pointer-events-none opacity-60"
-        :style="{
-          top: dec.top,
-          left: dec.left,
-          right: dec.right,
-          animationDelay: `${i * 0.4}s`,
-          animationDuration: `${3 + i * 0.3}s`
-        }"
-      >
-        {{ dec.emoji }}
-      </div>
+      <!-- Décorations discrètes -->
+      <div class="fixed top-1/4 left-2 text-2xl animate-float opacity-40">🌸</div>
+      <div class="fixed top-1/3 right-2 text-2xl animate-float opacity-40" style="animation-delay: 0.5s">💖</div>
 
       <!-- Bouton retour maison -->
       <NuxtLink to="/" class="btn-back z-20">
         🏠
       </NuxtLink>
 
-      <!-- En-tête enrichi -->
-      <div class="text-center pt-16 mb-8 relative z-10">
-        <div class="flex items-center justify-center gap-3 mb-4">
-          <span class="text-4xl animate-sparkle">🌸</span>
-          <div class="text-7xl animate-bounce-soft">🧸</div>
-          <span class="text-4xl animate-sparkle" style="animation-delay: 0.5s">🌸</span>
+      <!-- En-tête compact -->
+      <div class="text-center mb-4 relative z-10">
+        <div class="flex items-center justify-center gap-2 mb-2">
+          <span class="text-3xl">🌸</span>
+          <div class="text-5xl sm:text-6xl">🧸</div>
+          <span class="text-3xl">🌸</span>
         </div>
-        <div class="flex items-center justify-center gap-3 mb-2">
-          <span class="text-3xl">🎀</span>
-          <h1 class="text-4xl sm:text-5xl font-magic text-rose">
-            Andrea
-          </h1>
-          <span class="text-3xl">🎀</span>
+        <div class="flex items-center justify-center gap-2">
+          <span class="text-2xl">🎀</span>
+          <h1 class="text-3xl sm:text-4xl font-magic text-rose">Andrea</h1>
+          <span class="text-2xl">🎀</span>
         </div>
-        <p class="text-xl text-rose-600/80 font-body flex items-center justify-center gap-2">
-          <span>💖</span> Que veux-tu faire ? <span>💖</span>
-        </p>
       </div>
 
       <!-- Grille d'activités - GROS boutons pour 3 ans -->
-      <div class="grid grid-cols-2 gap-5 max-w-md mx-auto relative z-10">
+      <div class="grid grid-cols-2 gap-4 w-full max-w-sm relative z-10">
         <NuxtLink
           v-for="activity in activities"
           :key="activity.id"
           :to="activity.to"
-          class="relative aspect-square rounded-3xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 active:scale-95 overflow-hidden group"
+          class="relative aspect-square rounded-3xl shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 active:scale-95 overflow-hidden group"
         >
-          <!-- Fond gradient -->
-          <div
-            class="absolute inset-0 bg-gradient-to-br opacity-90"
-            :class="activity.bgGradient"
-          />
+          <div class="absolute inset-0 bg-gradient-to-br" :class="activity.bgGradient" />
 
-          <!-- Contenu -->
-          <div class="relative z-10 h-full flex flex-col items-center justify-center p-4">
-            <!-- Double emoji pour plus de fun -->
-            <div class="flex items-center gap-1 mb-3">
-              <span class="text-5xl sm:text-6xl group-hover:scale-110 transition-transform">
-                {{ activity.emoji }}
-              </span>
-              <span class="text-4xl sm:text-5xl group-hover:scale-110 transition-transform" style="animation-delay: 0.1s">
-                {{ activity.secondEmoji }}
-              </span>
+          <div class="relative z-10 h-full flex flex-col items-center justify-center p-3">
+            <div class="flex items-center gap-1 mb-2">
+              <span class="text-5xl group-hover:scale-110 transition-transform">{{ activity.emoji }}</span>
+              <span class="text-4xl group-hover:scale-110 transition-transform">{{ activity.secondEmoji }}</span>
             </div>
-            <span class="text-xl sm:text-2xl font-magic text-rose-700 text-center">
-              {{ activity.label }}
-            </span>
+            <span class="text-lg sm:text-xl font-magic text-rose-700 text-center">{{ activity.label }}</span>
           </div>
 
-          <!-- Étoile décorative -->
-          <span class="absolute top-2 right-2 text-xl animate-sparkle">⭐</span>
+          <span class="absolute top-2 right-2 text-lg animate-sparkle">⭐</span>
         </NuxtLink>
       </div>
 
-      <!-- Décoration bas de page -->
-      <div class="fixed bottom-0 left-0 right-0 h-4 bg-gradient-to-r from-rose-300 via-pink-300 to-rose-400 opacity-60" />
-      <div class="fixed bottom-4 left-0 right-0 flex justify-around text-xl opacity-50">
-        <span>🌷</span><span>🌸</span><span>💐</span><span>🌺</span><span>🌷</span><span>🌸</span>
-      </div>
+      <!-- Arc-en-ciel bas -->
+      <div class="fixed bottom-0 left-0 right-0 h-3 bg-gradient-to-r from-rose-300 via-pink-300 to-rose-400 opacity-60" />
     </div>
   </NuxtLayout>
 </template>
