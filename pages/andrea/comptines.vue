@@ -1,19 +1,123 @@
 <script setup lang="ts">
 import { ref, onUnmounted } from 'vue'
 
+interface Note {
+  freq: number
+  duration: number // en ms
+}
+
 interface Song {
   id: string
   title: string
   emoji: string
   color: string
-  notes: number[] // Fréquences des notes
+  notes: Note[]
 }
 
+// Notes de musique (fréquences en Hz)
+const C4 = 262, D4 = 294, E4 = 330, F4 = 349, G4 = 392, A4 = 440, B4 = 494, C5 = 523, D5 = 587, E5 = 659
+
+// Durées
+const q = 300  // noire
+const h = 600  // blanche
+const e = 150  // croche
+
 const songs: Song[] = [
-  { id: 'licorne', title: 'La licorne', emoji: '🦄', color: 'bg-rose-100', notes: [262, 294, 330, 349, 392, 349, 330, 294, 262] },
-  { id: 'arc-en-ciel', title: 'Arc-en-ciel', emoji: '🌈', color: 'bg-gradient-to-r from-arc-rouge via-arc-jaune to-arc-violet', notes: [392, 440, 494, 523, 494, 440, 392, 330] },
-  { id: 'etoiles', title: 'Petites étoiles', emoji: '⭐', color: 'bg-arc-jaune/30', notes: [262, 262, 392, 392, 440, 440, 392, 349, 349, 330, 330, 294, 294, 262] },
-  { id: 'dodo', title: 'Dodo licorne', emoji: '🌙', color: 'bg-violet-100', notes: [330, 294, 262, 294, 330, 330, 330, 294, 294, 294, 330, 392, 392] }
+  {
+    id: 'etoiles',
+    title: 'Brille étoile',
+    emoji: '⭐',
+    color: 'bg-yellow-100',
+    // "Ah vous dirai-je maman" / "Twinkle Twinkle Little Star"
+    notes: [
+      { freq: C4, duration: q }, { freq: C4, duration: q }, { freq: G4, duration: q }, { freq: G4, duration: q },
+      { freq: A4, duration: q }, { freq: A4, duration: q }, { freq: G4, duration: h },
+      { freq: F4, duration: q }, { freq: F4, duration: q }, { freq: E4, duration: q }, { freq: E4, duration: q },
+      { freq: D4, duration: q }, { freq: D4, duration: q }, { freq: C4, duration: h }
+    ]
+  },
+  {
+    id: 'frere',
+    title: 'Frère Jacques',
+    emoji: '🔔',
+    color: 'bg-orange-100',
+    notes: [
+      { freq: C4, duration: q }, { freq: D4, duration: q }, { freq: E4, duration: q }, { freq: C4, duration: q },
+      { freq: C4, duration: q }, { freq: D4, duration: q }, { freq: E4, duration: q }, { freq: C4, duration: q },
+      { freq: E4, duration: q }, { freq: F4, duration: q }, { freq: G4, duration: h },
+      { freq: E4, duration: q }, { freq: F4, duration: q }, { freq: G4, duration: h },
+      { freq: G4, duration: e }, { freq: A4, duration: e }, { freq: G4, duration: e }, { freq: F4, duration: e }, { freq: E4, duration: q }, { freq: C4, duration: q },
+      { freq: G4, duration: e }, { freq: A4, duration: e }, { freq: G4, duration: e }, { freq: F4, duration: e }, { freq: E4, duration: q }, { freq: C4, duration: q },
+      { freq: C4, duration: q }, { freq: G4, duration: q }, { freq: C4, duration: h },
+      { freq: C4, duration: q }, { freq: G4, duration: q }, { freq: C4, duration: h }
+    ]
+  },
+  {
+    id: 'souris',
+    title: 'Souris verte',
+    emoji: '🐭',
+    color: 'bg-green-100',
+    // "Une souris verte" (simplifié)
+    notes: [
+      { freq: G4, duration: q }, { freq: E4, duration: q }, { freq: E4, duration: q }, { freq: F4, duration: q },
+      { freq: D4, duration: q }, { freq: D4, duration: h },
+      { freq: C4, duration: q }, { freq: E4, duration: q }, { freq: G4, duration: q }, { freq: G4, duration: q },
+      { freq: E4, duration: q }, { freq: C4, duration: h },
+      { freq: D4, duration: q }, { freq: D4, duration: q }, { freq: D4, duration: q }, { freq: E4, duration: q },
+      { freq: F4, duration: h },
+      { freq: E4, duration: q }, { freq: E4, duration: q }, { freq: E4, duration: q }, { freq: F4, duration: q },
+      { freq: G4, duration: h }
+    ]
+  },
+  {
+    id: 'bateau',
+    title: 'Bateau sur l\'eau',
+    emoji: '⛵',
+    color: 'bg-sky-100',
+    // "Bateau sur l'eau"
+    notes: [
+      { freq: E4, duration: q }, { freq: D4, duration: q }, { freq: C4, duration: h },
+      { freq: E4, duration: q }, { freq: D4, duration: q }, { freq: C4, duration: h },
+      { freq: C4, duration: q }, { freq: D4, duration: q }, { freq: E4, duration: q }, { freq: F4, duration: q },
+      { freq: G4, duration: h }, { freq: G4, duration: h },
+      { freq: G4, duration: q }, { freq: F4, duration: q }, { freq: E4, duration: q }, { freq: D4, duration: q },
+      { freq: C4, duration: h }, { freq: C4, duration: h }
+    ]
+  },
+  {
+    id: 'dodo',
+    title: 'Dodo l\'enfant',
+    emoji: '🌙',
+    color: 'bg-violet-100',
+    // Berceuse douce
+    notes: [
+      { freq: E4, duration: h }, { freq: D4, duration: q }, { freq: C4, duration: h },
+      { freq: D4, duration: q }, { freq: E4, duration: q }, { freq: E4, duration: q }, { freq: E4, duration: h },
+      { freq: D4, duration: q }, { freq: D4, duration: q }, { freq: D4, duration: h },
+      { freq: E4, duration: q }, { freq: G4, duration: q }, { freq: G4, duration: h },
+      { freq: E4, duration: h }, { freq: D4, duration: q }, { freq: C4, duration: h },
+      { freq: D4, duration: q }, { freq: E4, duration: q }, { freq: E4, duration: q }, { freq: E4, duration: h },
+      { freq: D4, duration: q }, { freq: D4, duration: q }, { freq: E4, duration: q }, { freq: D4, duration: q },
+      { freq: C4, duration: h }, { freq: C4, duration: h }
+    ]
+  },
+  {
+    id: 'pomme',
+    title: 'Pomme de reinette',
+    emoji: '🍎',
+    color: 'bg-rose-100',
+    // "Pomme de reinette et pomme d'api"
+    notes: [
+      { freq: G4, duration: q }, { freq: E4, duration: q }, { freq: E4, duration: q },
+      { freq: F4, duration: q }, { freq: D4, duration: q }, { freq: D4, duration: q },
+      { freq: C4, duration: q }, { freq: D4, duration: q }, { freq: E4, duration: q }, { freq: F4, duration: q },
+      { freq: G4, duration: q }, { freq: G4, duration: q }, { freq: G4, duration: h },
+      { freq: G4, duration: q }, { freq: E4, duration: q }, { freq: E4, duration: q },
+      { freq: F4, duration: q }, { freq: D4, duration: q }, { freq: D4, duration: q },
+      { freq: C4, duration: q }, { freq: E4, duration: q }, { freq: G4, duration: q }, { freq: G4, duration: q },
+      { freq: C4, duration: h }, { freq: C4, duration: h }
+    ]
+  }
 ]
 
 const currentSong = ref<string | null>(null)
@@ -52,37 +156,39 @@ const playSong = (songId: string) => {
     audioContext = new (window.AudioContext || (window as any).webkitAudioContext)()
   }
 
-  // Jouer les notes
+  // Jouer les notes avec durées
   let noteIndex = 0
   const playNote = () => {
     if (!isPlaying.value || noteIndex >= song.notes.length) {
       if (noteIndex >= song.notes.length) {
-        // Recommencer en boucle
+        // Recommencer en boucle après une pause
         noteIndex = 0
         if (isPlaying.value) {
-          currentTimeout = setTimeout(playNote, 200)
+          currentTimeout = setTimeout(playNote, 500)
         }
       }
       return
     }
 
+    const note = song.notes[noteIndex]
     const oscillator = audioContext!.createOscillator()
     const gainNode = audioContext!.createGain()
 
     oscillator.connect(gainNode)
     gainNode.connect(audioContext!.destination)
 
-    oscillator.frequency.value = song.notes[noteIndex]
+    oscillator.frequency.value = note.freq
     oscillator.type = 'sine'
 
-    gainNode.gain.setValueAtTime(0.3, audioContext!.currentTime)
-    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext!.currentTime + 0.3)
+    const duration = note.duration / 1000 // en secondes
+    gainNode.gain.setValueAtTime(0.25, audioContext!.currentTime)
+    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext!.currentTime + duration * 0.9)
 
     oscillator.start()
-    oscillator.stop(audioContext!.currentTime + 0.3)
+    oscillator.stop(audioContext!.currentTime + duration)
 
     noteIndex++
-    currentTimeout = setTimeout(playNote, 350)
+    currentTimeout = setTimeout(playNote, note.duration + 50)
   }
 
   playNote()
