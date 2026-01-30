@@ -117,49 +117,54 @@ const restart = () => {
 </script>
 
 <template>
-  <div class="game-container flex flex-col">
-    <!-- Bouton retour -->
-    <NuxtLink to="/suzanne/histoires" class="btn-back">
-      ⬅️
+  <div class="relative min-h-screen overflow-hidden bg-gradient-to-b from-violet-50 via-purple-50/50 to-white">
+    <!-- Bouton retour 3D -->
+    <NuxtLink
+      to="/suzanne/histoires"
+      class="fixed top-3 left-3 z-[100] w-20 h-20 flex items-center justify-center rounded-2xl bg-white border-4 border-b-[10px] border-violet-500 shadow-2xl active:border-b-4 active:translate-y-1 transition-all"
+      style="position: fixed !important; top: 12px !important; left: 12px !important;"
+    >
+      <span class="text-4xl">⬅️</span>
     </NuxtLink>
 
-    <div class="flex-1 flex flex-col items-center justify-center px-4 py-20">
-      <!-- Émoji principal -->
-      <div class="text-8xl mb-8 animate-bounce-soft">
-        {{ currentScene.emoji }}
-      </div>
+    <!-- Contenu centré -->
+    <div class="min-h-screen flex flex-col items-center justify-center px-4">
+    <!-- Émoji principal -->
+    <div class="text-5xl sm:text-6xl mb-3 animate-bounce-soft">
+      {{ currentScene.emoji }}
+    </div>
 
-      <!-- Texte de l'histoire -->
-      <div class="bg-white/90 rounded-magic p-6 shadow-magic max-w-md w-full mb-8">
-        <p class="text-lg font-body text-violet-800 leading-relaxed text-center">
-          {{ currentScene.text }}
-        </p>
-      </div>
+    <!-- Texte de l'histoire -->
+    <div class="bg-white/90 rounded-magic p-3 sm:p-4 shadow-magic max-w-xs w-full mb-3">
+      <p class="text-sm sm:text-base font-body text-violet-800 leading-relaxed text-center">
+        {{ currentScene.text }}
+      </p>
+    </div>
 
-      <!-- Choix -->
-      <div v-if="!currentScene.isEnd" class="flex flex-col gap-4 w-full max-w-md">
-        <button
-          v-for="(choice, index) in currentScene.choices"
-          :key="index"
-          class="btn-magic btn-magic-violet text-lg"
-          @click="makeChoice(choice.nextScene)"
-        >
-          {{ choice.text }}
-        </button>
-      </div>
+    <!-- Choix - GROS boutons -->
+    <div v-if="!currentScene.isEnd" class="flex flex-col gap-3 w-full max-w-sm">
+      <button
+        v-for="(choice, index) in currentScene.choices"
+        :key="index"
+        class="w-full p-4 rounded-2xl bg-gradient-to-r from-violet to-rose text-white font-magic text-lg shadow-xl hover:scale-102 active:scale-98 transition-all"
+        @click="makeChoice(choice.nextScene)"
+      >
+        {{ choice.text }}
+      </button>
+    </div>
 
-      <!-- Écran de fin -->
-      <div v-else class="flex flex-col items-center gap-4">
-        <div class="text-6xl animate-sparkle">
-          🎉
-        </div>
-        <button
-          class="btn-magic"
-          @click="restart"
-        >
-          🔄 Recommencer l'aventure
-        </button>
+    <!-- Écran de fin -->
+    <div v-else class="flex flex-col items-center gap-3">
+      <div class="text-5xl animate-sparkle">
+        🎉
       </div>
+      <button
+        class="px-8 py-4 rounded-2xl bg-gradient-to-r from-rose to-violet text-white font-magic text-xl shadow-xl hover:scale-105 active:scale-95 transition-all"
+        @click="restart"
+      >
+        🔄 Recommencer
+      </button>
+    </div>
     </div>
   </div>
 </template>

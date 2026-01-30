@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 
 // Options de personnalisation
 const bodyColors = [
@@ -98,174 +98,150 @@ const saveLicorne = () => {
     isSaved.value = false
   }, 3000)
 }
+
+// Charger la licorne sauvegardée au démarrage
+onMounted(() => {
+  const saved = localStorage.getItem('suzanne_licorne')
+  if (saved) {
+    try {
+      const licorne = JSON.parse(saved)
+      unicornName.value = licorne.name || ''
+      selectedBody.value = licorne.body || bodyColors[0].value
+      selectedMane.value = licorne.mane || maneColors[0].value
+      selectedHorn.value = licorne.horn || hornStyles[0].value
+      selectedAccessory.value = licorne.accessory || accessories[0].value
+    } catch (e) {
+      console.error('Erreur chargement licorne:', e)
+    }
+  }
+})
 </script>
 
 <template>
-  <div class="game-container overflow-y-auto">
-    <!-- Bouton retour -->
-    <NuxtLink to="/suzanne" class="btn-back">
-      ⬅️
+  <div class="relative min-h-screen overflow-hidden bg-gradient-to-b from-violet-50 via-purple-50/50 to-white">
+    <!-- Bouton retour 3D -->
+    <NuxtLink
+      to="/suzanne"
+      class="fixed top-3 left-3 z-[100] w-20 h-20 flex items-center justify-center rounded-2xl bg-white border-4 border-b-[10px] border-violet-500 shadow-2xl active:border-b-4 active:translate-y-1 transition-all"
+      style="position: fixed !important; top: 12px !important; left: 12px !important;"
+    >
+      <span class="text-4xl">⬅️</span>
     </NuxtLink>
 
-    <div class="min-h-screen pt-20 pb-8 px-4">
-      <!-- Titre -->
-      <div class="text-center mb-6">
-        <h1 class="text-3xl font-magic text-violet">
-          Crée ta licorne !
-        </h1>
+    <!-- Contenu centré -->
+    <div class="min-h-screen flex flex-col items-center justify-center px-3 py-2">
+    <!-- Titre + Nom -->
+    <div class="text-center mb-1">
+      <h1 class="text-xl font-magic text-violet">Crée ta licorne !</h1>
+      <div v-if="unicornName" class="flex items-center justify-center gap-1 mt-1">
+        <span class="text-lg font-magic text-violet-600">{{ unicornName }}</span>
+        <button class="text-base" @click="showNameInput = true">✏️</button>
       </div>
+      <button v-else class="text-sm text-violet-500 underline mt-1" @click="showNameInput = true">
+        + Donner un nom
+      </button>
+    </div>
 
-      <!-- Prévisualisation de la licorne -->
-      <div class="flex justify-center mb-8">
-        <div class="relative w-64 h-64 flex items-center justify-center">
-          <!-- Corps de la licorne (cercle simple) -->
+    <!-- Layout horizontal : Licorne à gauche, Options à droite -->
+    <div class="flex flex-row items-start gap-4 w-full max-w-2xl flex-1 min-h-0">
+
+      <!-- Prévisualisation de la licorne (colonne gauche) -->
+      <div class="flex-shrink-0 flex items-center justify-center">
+        <div class="relative w-36 h-40 flex items-center justify-center">
           <div
-            class="w-40 h-48 rounded-[50%] border-4 border-gray-200 shadow-lg relative"
+            class="w-28 h-32 rounded-[50%] border-3 border-gray-200 shadow-lg relative"
             :style="{ backgroundColor: selectedBody }"
           >
-            <!-- Corne -->
-            <div
-              class="absolute -top-8 left-1/2 -translate-x-1/2 w-6 h-16 rounded-t-full"
-              :style="hornStyle"
-            />
-
-            <!-- Crinière -->
-            <div
-              class="absolute -left-4 top-4 w-10 h-32 rounded-full"
-              :style="maneStyle"
-            />
-
-            <!-- Oeil -->
-            <div class="absolute top-12 left-10 w-6 h-8 bg-gray-800 rounded-full">
-              <div class="absolute top-1 left-1 w-2 h-2 bg-white rounded-full" />
+            <div class="absolute -top-5 left-1/2 -translate-x-1/2 w-4 h-10 rounded-t-full" :style="hornStyle" />
+            <div class="absolute -left-2 top-2 w-6 h-20 rounded-full" :style="maneStyle" />
+            <div class="absolute top-8 left-6 w-4 h-5 bg-gray-800 rounded-full">
+              <div class="absolute top-0.5 left-0.5 w-1.5 h-1.5 bg-white rounded-full" />
             </div>
-
-            <!-- Joue -->
-            <div class="absolute top-20 left-6 w-6 h-4 bg-rose-300/50 rounded-full" />
-
-            <!-- Bouche souriante -->
-            <div class="absolute bottom-12 left-12 w-8 h-4 border-b-4 border-gray-600 rounded-b-full" />
-
-            <!-- Accessoire -->
-            <span
-              v-if="selectedAccessory === 'crown'"
-              class="absolute -top-12 left-1/2 -translate-x-1/2 text-4xl"
-            >
-              👑
-            </span>
-            <span
-              v-if="selectedAccessory === 'flowers'"
-              class="absolute -top-4 -left-2 text-2xl"
-            >
-              🌸
-            </span>
-            <span
-              v-if="selectedAccessory === 'wings'"
-              class="absolute top-8 -right-8 text-4xl"
-            >
-              🦋
-            </span>
-            <span
-              v-if="selectedAccessory === 'stars'"
-              class="absolute -top-6 right-0 text-2xl animate-sparkle"
-            >
-              ⭐
-            </span>
+            <div class="absolute top-14 left-4 w-4 h-2 bg-rose-300/50 rounded-full" />
+            <div class="absolute bottom-8 left-8 w-5 h-3 border-b-2 border-gray-600 rounded-b-full" />
+            <span v-if="selectedAccessory === 'crown'" class="absolute -top-8 left-1/2 -translate-x-1/2 text-2xl">👑</span>
+            <span v-if="selectedAccessory === 'flowers'" class="absolute -top-2 -left-1 text-lg">🌸</span>
+            <span v-if="selectedAccessory === 'wings'" class="absolute top-4 -right-5 text-2xl">🦋</span>
+            <span v-if="selectedAccessory === 'stars'" class="absolute -top-3 right-0 text-lg animate-sparkle">⭐</span>
           </div>
         </div>
       </div>
 
-      <!-- Nom de la licorne -->
-      <div class="text-center mb-6">
-        <div v-if="unicornName" class="flex items-center justify-center gap-2">
-          <span class="text-2xl font-magic text-violet">{{ unicornName }}</span>
-          <button class="text-lg" @click="showNameInput = true">✏️</button>
-        </div>
-        <button
-          v-else
-          class="btn-magic btn-magic-turquoise text-lg px-6 py-3"
-          @click="showNameInput = true"
-        >
-          Donner un nom
-        </button>
-      </div>
-
-      <!-- Options de personnalisation -->
-      <div class="max-w-md mx-auto space-y-6">
-        <!-- Couleur du corps -->
-        <div>
-          <h3 class="text-lg font-magic text-violet-700 mb-3">Couleur du corps</h3>
-          <div class="flex flex-wrap gap-3 justify-center">
+      <!-- Options de personnalisation (colonne droite) -->
+      <div class="flex-1 flex flex-col gap-2 overflow-y-auto max-h-full pr-1">
+        <!-- Corps -->
+        <div class="bg-white/80 rounded-xl p-2">
+          <h3 class="text-xs font-magic text-violet-700 mb-1">Corps</h3>
+          <div class="flex flex-wrap gap-1.5">
             <button
               v-for="color in bodyColors"
               :key="color.value"
-              class="w-12 h-12 rounded-full border-4 transition-transform hover:scale-110"
-              :class="selectedBody === color.value ? 'border-dore scale-110' : 'border-gray-200'"
+              class="w-8 h-8 rounded-full border-2 transition-transform hover:scale-110"
+              :class="selectedBody === color.value ? 'border-dore scale-110 ring-2 ring-dore/50' : 'border-gray-200'"
               :style="{ backgroundColor: color.value }"
               @click="selectedBody = color.value"
             />
           </div>
         </div>
 
-        <!-- Couleur de la crinière -->
-        <div>
-          <h3 class="text-lg font-magic text-violet-700 mb-3">Couleur de la crinière</h3>
-          <div class="flex flex-wrap gap-3 justify-center">
+        <!-- Crinière -->
+        <div class="bg-white/80 rounded-xl p-2">
+          <h3 class="text-xs font-magic text-violet-700 mb-1">Crinière</h3>
+          <div class="flex flex-wrap gap-1.5">
             <button
               v-for="color in maneColors"
               :key="color.value"
-              class="w-12 h-12 rounded-full border-4 transition-transform hover:scale-110"
-              :class="selectedMane === color.value ? 'border-dore scale-110' : 'border-gray-200'"
+              class="w-8 h-8 rounded-full border-2 transition-transform hover:scale-110"
+              :class="selectedMane === color.value ? 'border-dore scale-110 ring-2 ring-dore/50' : 'border-gray-200'"
               :style="color.value === 'rainbow' ? { background: rainbowGradient } : { backgroundColor: color.value }"
               @click="selectedMane = color.value"
             />
           </div>
         </div>
 
-        <!-- Style de la corne -->
-        <div>
-          <h3 class="text-lg font-magic text-violet-700 mb-3">Corne magique</h3>
-          <div class="flex flex-wrap gap-3 justify-center">
-            <button
-              v-for="horn in hornStyles"
-              :key="horn.value"
-              class="w-14 h-14 rounded-xl border-4 flex items-center justify-center text-2xl transition-transform hover:scale-110"
-              :class="selectedHorn === horn.value ? 'border-dore scale-110 bg-white' : 'border-gray-200 bg-gray-50'"
-              @click="selectedHorn = horn.value"
-            >
-              {{ horn.icon }}
-            </button>
+        <!-- Corne + Accessoires sur une ligne -->
+        <div class="flex gap-2">
+          <div class="flex-1 bg-white/80 rounded-xl p-2">
+            <h3 class="text-xs font-magic text-violet-700 mb-1">Corne</h3>
+            <div class="flex flex-wrap gap-1">
+              <button
+                v-for="horn in hornStyles"
+                :key="horn.value"
+                class="w-9 h-9 rounded-lg border-2 flex items-center justify-center text-lg transition-transform hover:scale-110"
+                :class="selectedHorn === horn.value ? 'border-dore scale-110 bg-white' : 'border-gray-200 bg-gray-50'"
+                @click="selectedHorn = horn.value"
+              >
+                {{ horn.icon }}
+              </button>
+            </div>
+          </div>
+
+          <div class="flex-1 bg-white/80 rounded-xl p-2">
+            <h3 class="text-xs font-magic text-violet-700 mb-1">Accessoire</h3>
+            <div class="flex flex-wrap gap-1">
+              <button
+                v-for="acc in accessories"
+                :key="acc.value"
+                class="w-9 h-9 rounded-lg border-2 flex items-center justify-center text-lg transition-transform hover:scale-110"
+                :class="selectedAccessory === acc.value ? 'border-dore scale-110 bg-white' : 'border-gray-200 bg-gray-50'"
+                @click="selectedAccessory = acc.value"
+              >
+                {{ acc.icon }}
+              </button>
+            </div>
           </div>
         </div>
-
-        <!-- Accessoires -->
-        <div>
-          <h3 class="text-lg font-magic text-violet-700 mb-3">Accessoire</h3>
-          <div class="flex flex-wrap gap-3 justify-center">
-            <button
-              v-for="acc in accessories"
-              :key="acc.value"
-              class="w-14 h-14 rounded-xl border-4 flex items-center justify-center text-2xl transition-transform hover:scale-110"
-              :class="selectedAccessory === acc.value ? 'border-dore scale-110 bg-white' : 'border-gray-200 bg-gray-50'"
-              @click="selectedAccessory = acc.value"
-            >
-              {{ acc.icon }}
-            </button>
-          </div>
-        </div>
-      </div>
-
-      <!-- Bouton sauvegarder -->
-      <div class="text-center mt-8">
-        <button
-          class="btn-magic"
-          :class="isSaved ? 'bg-green-500' : ''"
-          @click="saveLicorne"
-        >
-          {{ isSaved ? '✓ Sauvegardé !' : '💾 Sauvegarder' }}
-        </button>
       </div>
     </div>
+
+    <!-- Bouton sauvegarder -->
+    <button
+      class="mt-2 px-6 py-2 rounded-full font-magic text-white shadow-lg transition-all hover:scale-105 active:scale-95"
+      :class="isSaved ? 'bg-green-500' : 'bg-gradient-to-r from-violet to-rose'"
+      @click="saveLicorne"
+    >
+      {{ isSaved ? '✓ Sauvegardé !' : '💾 Sauvegarder' }}
+    </button>
 
     <!-- Modal nom -->
     <Teleport to="body">
@@ -302,5 +278,6 @@ const saveLicorne = () => {
         </div>
       </div>
     </Teleport>
+    </div>
   </div>
 </template>

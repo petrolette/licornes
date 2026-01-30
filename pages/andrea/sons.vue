@@ -34,43 +34,41 @@ const playSound = (item: SoundItem) => {
 </script>
 
 <template>
-  <NuxtLayout>
-    <div class="min-h-screen min-h-dvh px-4 py-8">
-      <!-- Bouton retour -->
-      <NuxtLink to="/andrea" class="btn-back">
-        ⬅️
-      </NuxtLink>
+  <div class="relative min-h-screen overflow-hidden bg-gradient-to-b from-rose-50 via-pink-50/50 to-white">
+    <!-- Bouton retour 3D -->
+    <NuxtLink
+      to="/andrea"
+      class="fixed top-3 left-3 z-[100] w-20 h-20 flex items-center justify-center rounded-2xl bg-white border-4 border-b-[10px] border-pink-500 shadow-2xl active:border-b-4 active:translate-y-1 transition-all"
+      style="position: fixed !important; top: 12px !important; left: 12px !important;"
+    >
+      <span class="text-4xl">⬅️</span>
+    </NuxtLink>
 
-      <!-- En-tête -->
-      <div class="text-center pt-16 mb-8">
-        <div class="text-5xl mb-4">
-          🔊
-        </div>
-        <h1 class="text-3xl font-magic text-rose">
-          Sons magiques
-        </h1>
-        <p class="text-lg text-rose-600/80 font-body mt-2">
-          Touche pour écouter !
-        </p>
-      </div>
-
-      <!-- Grille de sons (gros boutons) -->
-      <div class="grid grid-cols-2 gap-6 max-w-md mx-auto">
-        <button
-          v-for="sound in sounds"
-          :key="sound.id"
-          class="aspect-square rounded-bubble flex flex-col items-center justify-center gap-2 shadow-lg transition-all duration-200"
-          :class="[
-            sound.color,
-            activeSound === sound.id ? 'scale-110 shadow-magic-lg' : 'hover:scale-105 active:scale-95'
-          ]"
-          @click="playSound(sound)"
-        >
-          <span class="text-6xl" :class="{ 'animate-bounce': activeSound === sound.id }">
-            {{ sound.emoji }}
-          </span>
-        </button>
-      </div>
+    <!-- Contenu centré -->
+    <div class="min-h-screen flex flex-col items-center justify-center px-4">
+    <!-- En-tête compact -->
+    <div class="text-center mb-3">
+      <div class="text-3xl mb-1">🔊</div>
+      <h1 class="text-2xl sm:text-3xl font-magic text-rose">Sons magiques</h1>
     </div>
-  </NuxtLayout>
+
+    <!-- Grille de sons (ÉNORMES boutons) -->
+    <div class="grid grid-cols-2 gap-4 w-full max-w-sm">
+      <button
+        v-for="sound in sounds"
+        :key="sound.id"
+        class="aspect-square rounded-[2rem] flex items-center justify-center shadow-2xl transition-all duration-200 border-4 border-white/50"
+        :class="[
+          sound.color,
+          activeSound === sound.id ? 'scale-105 shadow-2xl ring-4 ring-dore' : 'hover:scale-105 active:scale-95'
+        ]"
+        @click="playSound(sound)"
+      >
+        <span class="text-6xl sm:text-7xl" :class="{ 'animate-bounce': activeSound === sound.id }">
+          {{ sound.emoji }}
+        </span>
+      </button>
+    </div>
+    </div>
+  </div>
 </template>

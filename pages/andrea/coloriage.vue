@@ -214,27 +214,32 @@ const clearCanvas = () => {
 </script>
 
 <template>
-  <div class="game-container flex flex-col">
-    <!-- Bouton retour -->
-    <NuxtLink to="/andrea" class="btn-back">
-      ⬅️
+  <div class="relative min-h-screen overflow-hidden bg-gradient-to-b from-rose-50 via-pink-50/50 to-white">
+    <!-- Bouton retour 3D -->
+    <NuxtLink
+      to="/andrea"
+      class="fixed top-3 left-3 z-[100] w-20 h-20 flex items-center justify-center rounded-2xl bg-white border-4 border-b-[10px] border-pink-500 shadow-2xl active:border-b-4 active:translate-y-1 transition-all"
+      style="position: fixed !important; top: 12px !important; left: 12px !important;"
+    >
+      <span class="text-4xl">⬅️</span>
     </NuxtLink>
 
-    <!-- Titre -->
-    <div class="text-center pt-20 pb-4">
-      <h1 class="text-3xl font-magic text-rose">
+    <!-- Contenu centré -->
+    <div class="min-h-screen flex flex-col items-center justify-center px-4 py-3">
+    <!-- Titre compact -->
+    <div class="text-center mb-2">
+      <h1 class="text-xl sm:text-2xl font-magic text-rose">
         Colorie la licorne !
       </h1>
     </div>
 
     <!-- Zone de dessin -->
-    <div class="flex-1 flex items-center justify-center px-4 pb-32">
+    <div class="flex-1 flex items-center justify-center w-full min-h-0">
       <canvas
         ref="canvasRef"
         width="400"
         height="500"
-        class="bg-white rounded-magic shadow-magic max-w-full touch-none"
-        style="max-height: 60vh;"
+        class="bg-white rounded-magic shadow-magic max-w-full max-h-full touch-none"
         @mousedown="startDrawing"
         @mousemove="draw"
         @mouseup="stopDrawing"
@@ -245,14 +250,14 @@ const clearCanvas = () => {
       />
     </div>
 
-    <!-- Palette de couleurs -->
-    <div class="fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-sm p-4 shadow-lg border-t border-rose-100">
-      <div class="flex items-center justify-center gap-3 flex-wrap max-w-lg mx-auto">
+    <!-- Palette de couleurs - GROS boutons -->
+    <div class="w-full bg-white/95 backdrop-blur-sm p-3 mt-2 rounded-2xl shadow-xl">
+      <div class="flex items-center justify-center gap-2 flex-wrap max-w-md mx-auto">
         <!-- Couleurs -->
         <button
           v-for="color in colors"
           :key="color.name"
-          class="w-14 h-14 rounded-full shadow-lg transition-transform hover:scale-110 active:scale-95 border-4 border-white"
+          class="w-12 h-12 sm:w-14 sm:h-14 rounded-full shadow-xl transition-transform hover:scale-110 active:scale-95 border-4 border-white"
           :class="{ 'ring-4 ring-dore scale-110': selectedColor === color.hex }"
           :style="{ backgroundColor: color.hex }"
           @click="selectedColor = color.hex"
@@ -260,12 +265,13 @@ const clearCanvas = () => {
 
         <!-- Bouton effacer -->
         <button
-          class="w-14 h-14 rounded-full bg-gray-100 shadow-lg flex items-center justify-center text-2xl transition-transform hover:scale-110 active:scale-95 border-4 border-white"
+          class="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-gray-100 shadow-xl flex items-center justify-center text-2xl sm:text-3xl transition-transform hover:scale-110 active:scale-95 border-4 border-white"
           @click="clearCanvas"
         >
           🗑️
         </button>
       </div>
+    </div>
     </div>
   </div>
 </template>

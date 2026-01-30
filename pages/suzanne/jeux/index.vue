@@ -24,86 +24,65 @@ const games: Game[] = [
     emoji: '⭐',
     label: 'Attrape les étoiles',
     description: 'Clique sur les étoiles',
-    color: 'bg-arc-jaune/30',
+    color: 'bg-yellow-100',
     to: '/suzanne/jeux/etoiles',
-    available: false
+    available: true
   },
   {
     id: 'labyrinthe',
     emoji: '🌈',
     label: 'Labyrinthe',
     description: 'Trouve le chemin',
-    color: 'bg-ciel/30',
+    color: 'bg-sky-100',
     to: '/suzanne/jeux/labyrinthe',
-    available: false
+    available: true
   }
 ]
 </script>
 
 <template>
-  <NuxtLayout>
-    <div class="min-h-screen min-h-dvh px-4 py-8">
-      <!-- Bouton retour -->
-      <NuxtLink to="/suzanne" class="btn-back">
-        ⬅️
-      </NuxtLink>
+  <div class="relative min-h-screen overflow-hidden bg-gradient-to-b from-violet-50 via-purple-50/50 to-white">
+    <!-- Bouton retour 3D -->
+    <NuxtLink
+      to="/suzanne"
+      class="fixed top-3 left-3 z-[100] w-20 h-20 flex items-center justify-center rounded-2xl bg-white border-4 border-b-[10px] border-violet-500 shadow-2xl active:border-b-4 active:translate-y-1 transition-all"
+      style="position: fixed !important; top: 12px !important; left: 12px !important;"
+    >
+      <span class="text-4xl">⬅️</span>
+    </NuxtLink>
 
-      <!-- En-tête -->
-      <div class="text-center pt-16 mb-12">
-        <div class="text-5xl mb-4">
-          🎮
-        </div>
-        <h1 class="text-4xl font-magic text-violet mb-2">
-          Jeux
-        </h1>
-        <p class="text-lg text-violet-600/80 font-body">
-          Choisis un jeu !
-        </p>
-      </div>
-
-      <!-- Liste des jeux -->
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-2xl mx-auto">
-        <template v-for="game in games" :key="game.id">
-          <NuxtLink
-            v-if="game.available"
-            :to="game.to"
-            class="activity-card group"
-            :class="game.color"
-          >
-            <div class="activity-icon group-hover:scale-125">
-              {{ game.emoji }}
-            </div>
-            <div class="text-center">
-              <span class="block text-xl font-magic text-violet-700">
-                {{ game.label }}
-              </span>
-              <span class="block text-sm text-violet-500 font-body mt-1">
-                {{ game.description }}
-              </span>
-            </div>
-          </NuxtLink>
-
-          <!-- Jeu non disponible -->
-          <div
-            v-else
-            class="activity-card opacity-50 cursor-not-allowed"
-            :class="game.color"
-          >
-            <div class="activity-icon">
-              {{ game.emoji }}
-            </div>
-            <div class="text-center">
-              <span class="block text-xl font-magic text-gray-500">
-                {{ game.label }}
-              </span>
-              <span class="block text-sm text-gray-400 font-body mt-1">
-                Bientôt disponible
-              </span>
-            </div>
-            <span class="absolute top-2 right-2 text-lg">🔒</span>
-          </div>
-        </template>
-      </div>
+    <!-- Contenu centré -->
+    <div class="min-h-screen flex flex-col items-center justify-center px-4">
+    <!-- En-tête compact -->
+    <div class="text-center mb-3">
+      <div class="text-3xl mb-1">🎮</div>
+      <h1 class="text-2xl sm:text-3xl font-magic text-violet">Jeux</h1>
     </div>
-  </NuxtLayout>
+
+    <!-- Liste des jeux - GROS boutons -->
+    <div class="grid grid-cols-2 gap-4 w-full max-w-sm">
+      <template v-for="game in games" :key="game.id">
+        <NuxtLink
+          v-if="game.available"
+          :to="game.to"
+          class="relative aspect-square rounded-[2rem] shadow-2xl flex flex-col items-center justify-center p-3 transition-all hover:scale-105 active:scale-95 border-4 border-white/50"
+          :class="game.color"
+        >
+          <span class="text-5xl sm:text-6xl mb-2">{{ game.emoji }}</span>
+          <span class="text-lg sm:text-xl font-magic text-violet-700 text-center">{{ game.label }}</span>
+        </NuxtLink>
+
+        <div
+          v-else
+          class="relative aspect-square rounded-[2rem] shadow-xl flex flex-col items-center justify-center p-3 opacity-50 border-4 border-gray-200"
+          :class="game.color"
+        >
+          <span class="text-5xl sm:text-6xl mb-2">{{ game.emoji }}</span>
+          <span class="text-lg font-magic text-gray-500 text-center">{{ game.label }}</span>
+          <span class="absolute top-2 right-2 text-xl">🔒</span>
+        </div>
+      </template>
+    </div>
+    </div>
+  </div>
 </template>

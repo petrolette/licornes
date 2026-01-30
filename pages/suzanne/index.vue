@@ -61,57 +61,62 @@ const decorations = [
 </script>
 
 <template>
-  <NuxtLayout>
-    <div class="relative flex flex-col items-center justify-center h-screen h-dvh px-4 overflow-hidden bg-gradient-to-b from-violet-50 via-purple-50/50 to-white">
+  <div class="relative min-h-screen overflow-hidden bg-gradient-to-b from-violet-50 via-purple-50/50 to-white">
+    <!-- Bouton retour maison - coin supérieur gauche -->
+    <NuxtLink
+      to="/"
+      class="fixed top-3 left-3 z-[100] w-20 h-20 flex items-center justify-center rounded-2xl bg-white border-4 border-b-[10px] border-violet-500 shadow-2xl active:border-b-4 active:translate-y-1 transition-all"
+      style="position: fixed !important; top: 12px !important; left: 12px !important;"
+    >
+      <span class="text-4xl">🏠</span>
+    </NuxtLink>
 
-      <!-- Décorations discrètes -->
-      <div class="fixed top-1/4 left-2 text-2xl animate-float opacity-40">⭐</div>
-      <div class="fixed top-1/3 right-2 text-2xl animate-float opacity-40" style="animation-delay: 0.5s">🦋</div>
+    <!-- Contenu centré -->
+    <div class="min-h-screen flex flex-col items-center justify-center px-4 py-8">
+    <!-- En-tête compact -->
+    <div class="text-center mb-4">
+      <div class="text-5xl mb-2">🦄</div>
+      <h1 class="text-3xl font-magic text-violet">Suzanne</h1>
+    </div>
 
-      <!-- Bouton retour maison -->
-      <NuxtLink to="/" class="btn-back z-20">
-        🏠
+    <!-- Grille d'activités - Boutons 3D -->
+    <div class="grid grid-cols-2 gap-5 w-full max-w-md px-4">
+      <!-- Créer - Violet -->
+      <NuxtLink
+        to="/suzanne/createur"
+        class="aspect-square rounded-3xl flex flex-col items-center justify-center p-4 bg-gradient-to-b from-violet-100 to-violet-200 border-4 border-b-8 border-violet-500 shadow-xl active:border-b-4 active:translate-y-1 transition-all"
+      >
+        <span class="text-6xl mb-2">🦄</span>
+        <span class="text-lg font-magic text-violet-700">Créer</span>
       </NuxtLink>
 
-      <!-- En-tête compact -->
-      <div class="text-center mb-4 relative z-10">
-        <div class="flex items-center justify-center gap-2 mb-2">
-          <span class="text-3xl">✨</span>
-          <div class="text-5xl sm:text-6xl">🦄</div>
-          <span class="text-3xl">✨</span>
-        </div>
-        <div class="flex items-center justify-center gap-2">
-          <span class="text-2xl">👑</span>
-          <h1 class="text-3xl sm:text-4xl font-magic text-violet">Suzanne</h1>
-          <span class="text-2xl">👑</span>
-        </div>
-      </div>
+      <!-- Jeux - Rose -->
+      <NuxtLink
+        to="/suzanne/jeux"
+        class="aspect-square rounded-3xl flex flex-col items-center justify-center p-4 bg-gradient-to-b from-pink-100 to-pink-200 border-4 border-b-8 border-pink-500 shadow-xl active:border-b-4 active:translate-y-1 transition-all"
+      >
+        <span class="text-6xl mb-2">🎮</span>
+        <span class="text-lg font-magic text-pink-700">Jeux</span>
+      </NuxtLink>
 
-      <!-- Grille d'activités -->
-      <div class="grid grid-cols-2 gap-4 w-full max-w-md relative z-10">
-        <NuxtLink
-          v-for="activity in activities"
-          :key="activity.id"
-          :to="activity.to"
-          class="relative rounded-3xl shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 active:scale-95 overflow-hidden group p-4"
-        >
-          <div class="absolute inset-0 bg-gradient-to-br" :class="activity.bgGradient" />
+      <!-- Histoires - Bleu -->
+      <NuxtLink
+        to="/suzanne/histoires"
+        class="aspect-square rounded-3xl flex flex-col items-center justify-center p-4 bg-gradient-to-b from-blue-100 to-blue-200 border-4 border-b-8 border-blue-500 shadow-xl active:border-b-4 active:translate-y-1 transition-all"
+      >
+        <span class="text-6xl mb-2">📖</span>
+        <span class="text-lg font-magic text-blue-700">Histoires</span>
+      </NuxtLink>
 
-          <div class="relative z-10 flex flex-col items-center text-center">
-            <div class="flex items-center gap-1 mb-2">
-              <span class="text-4xl sm:text-5xl group-hover:scale-110 transition-transform">{{ activity.emoji }}</span>
-              <span class="text-3xl sm:text-4xl group-hover:scale-110 transition-transform">{{ activity.secondEmoji }}</span>
-            </div>
-            <span class="block text-lg sm:text-xl font-magic text-violet-700">{{ activity.label }}</span>
-            <span class="block text-xs sm:text-sm text-violet-500 font-body">{{ activity.description }}</span>
-          </div>
-
-          <span class="absolute top-2 right-2 text-lg animate-sparkle">⭐</span>
-        </NuxtLink>
-      </div>
-
-      <!-- Arc-en-ciel bas -->
-      <div class="fixed bottom-0 left-0 right-0 h-3 bg-gradient-to-r from-violet-300 via-purple-300 to-fuchsia-300 opacity-60" />
+      <!-- Quiz - Vert -->
+      <NuxtLink
+        to="/suzanne/quiz"
+        class="aspect-square rounded-3xl flex flex-col items-center justify-center p-4 bg-gradient-to-b from-teal-100 to-teal-200 border-4 border-b-8 border-teal-500 shadow-xl active:border-b-4 active:translate-y-1 transition-all"
+      >
+        <span class="text-6xl mb-2">🧠</span>
+        <span class="text-lg font-magic text-teal-700">Quiz</span>
+      </NuxtLink>
     </div>
-  </NuxtLayout>
+    </div>
+  </div>
 </template>

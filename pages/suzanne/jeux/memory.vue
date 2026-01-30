@@ -108,53 +108,65 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="game-container flex flex-col">
-    <!-- Bouton retour -->
-    <NuxtLink to="/suzanne/jeux" class="btn-back">
-      ⬅️
+  <div class="relative min-h-screen overflow-hidden bg-gradient-to-b from-violet-50 via-purple-50/50 to-white">
+    <!-- Bouton retour 3D -->
+    <NuxtLink
+      to="/suzanne/jeux"
+      class="fixed top-3 left-3 z-[100] w-20 h-20 flex items-center justify-center rounded-2xl bg-white border-4 border-b-[10px] border-violet-500 shadow-2xl active:border-b-4 active:translate-y-1 transition-all"
+      style="position: fixed !important; top: 12px !important; left: 12px !important;"
+    >
+      <span class="text-4xl">⬅️</span>
     </NuxtLink>
 
-    <!-- En-tête avec score -->
-    <div class="text-center pt-20 pb-4">
-      <h1 class="text-3xl font-magic text-violet mb-2">
+    <!-- Contenu centré -->
+    <div class="min-h-screen flex flex-col items-center justify-center px-4">
+    <!-- En-tête compact -->
+    <div class="text-center mb-2">
+      <h1 class="text-xl sm:text-2xl font-magic text-violet mb-1">
         Memory des Licornes
       </h1>
-      <p class="text-lg font-body text-violet-600">
+      <p class="text-sm font-body text-violet-600">
         Coups : {{ moves }}
       </p>
     </div>
 
-    <!-- Grille de jeu -->
-    <div class="flex-1 flex items-center justify-center px-4">
-      <div class="grid grid-cols-4 gap-3 max-w-md w-full">
-        <button
-          v-for="card in cards"
-          :key="card.id"
-          class="aspect-square rounded-xl text-4xl sm:text-5xl flex items-center justify-center transition-all duration-300 transform"
-          :class="[
-            card.isFlipped || card.isMatched
-              ? 'bg-white shadow-lg scale-100'
-              : 'bg-gradient-to-br from-violet to-rose shadow-magic hover:scale-105',
-            card.isMatched ? 'opacity-70' : ''
-          ]"
-          :disabled="card.isMatched || card.isFlipped || isChecking"
-          @click="flipCard(card.id)"
+    <!-- Grille de jeu - PLUS GRANDE -->
+    <div class="grid grid-cols-4 gap-2 sm:gap-3 max-w-sm w-full">
+      <button
+        v-for="card in cards"
+        :key="card.id"
+        class="aspect-square rounded-2xl text-3xl sm:text-4xl flex items-center justify-center transition-all duration-300 transform relative shadow-lg"
+        :class="[
+          card.isFlipped || card.isMatched
+            ? 'bg-white shadow-xl scale-100'
+            : 'bg-gradient-to-br from-violet to-rose shadow-magic hover:scale-105',
+          card.isMatched ? 'opacity-70' : ''
+        ]"
+        :disabled="card.isMatched || card.isFlipped || isChecking"
+        @click="flipCard(card.id)"
+      >
+        <span
+          class="transition-all duration-300"
+          :class="card.isFlipped || card.isMatched ? 'opacity-100 scale-100' : 'opacity-0 scale-0'"
         >
-          <span
-            class="transition-all duration-300"
-            :class="card.isFlipped || card.isMatched ? 'opacity-100 scale-100' : 'opacity-0 scale-0'"
-          >
-            {{ card.emoji }}
-          </span>
-          <span
-            v-if="!card.isFlipped && !card.isMatched"
-            class="absolute text-2xl text-white/50"
-          >
-            ?
-          </span>
-        </button>
-      </div>
+          {{ card.emoji }}
+        </span>
+        <span
+          v-if="!card.isFlipped && !card.isMatched"
+          class="absolute text-2xl text-white/70 font-bold"
+        >
+          ?
+        </span>
+      </button>
     </div>
+
+    <!-- Bouton recommencer - PLUS GROS -->
+    <button
+      class="mt-4 w-16 h-16 rounded-full bg-white shadow-2xl flex items-center justify-center text-3xl hover:scale-110 active:scale-95 transition-transform border-4 border-violet-200"
+      @click="initGame"
+    >
+      🔄
+    </button>
 
     <!-- Écran de victoire -->
     <Teleport to="body">
@@ -162,23 +174,23 @@ onMounted(() => {
         v-if="isWin"
         class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm"
       >
-        <div class="bg-white rounded-magic p-8 text-center shadow-magic-lg max-w-sm mx-4 animate-bounce-soft">
-          <div class="text-6xl mb-4">
+        <div class="bg-white rounded-magic p-5 text-center shadow-magic-lg max-w-xs mx-4 animate-bounce-soft">
+          <div class="text-4xl mb-2">
             🎉
           </div>
-          <h2 class="text-3xl font-magic text-violet mb-4">
+          <h2 class="text-xl font-magic text-violet mb-2">
             Bravo Suzanne !
           </h2>
-          <p class="text-lg font-body text-violet-600 mb-2">
+          <p class="text-sm font-body text-violet-600 mb-2">
             Tu as gagné en {{ moves }} coups !
           </p>
-          <div class="text-4xl mb-6">
+          <div class="text-2xl mb-3">
             <span v-for="i in 3" :key="i">
               {{ i <= stars ? '⭐' : '☆' }}
             </span>
           </div>
           <button
-            class="btn-magic btn-magic-violet"
+            class="btn-magic btn-magic-violet text-sm px-4 py-2"
             @click="initGame"
           >
             Rejouer
@@ -186,15 +198,6 @@ onMounted(() => {
         </div>
       </div>
     </Teleport>
-
-    <!-- Bouton recommencer -->
-    <div class="fixed bottom-4 right-4">
-      <button
-        class="w-14 h-14 rounded-full bg-white/90 shadow-lg flex items-center justify-center text-2xl hover:scale-110 active:scale-95 transition-transform"
-        @click="initGame"
-      >
-        🔄
-      </button>
     </div>
   </div>
 </template>
