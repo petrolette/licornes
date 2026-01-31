@@ -52,6 +52,13 @@ export default defineNuxtConfig({
         { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
         { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' },
         { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Bubblegum+Sans&family=Quicksand:wght@400;500;600;700&display=swap' }
+      ],
+      script: [
+        {
+          src: 'https://stats.tksa.swiss/script.js',
+          defer: true,
+          'data-website-id': '1ccc1eaa-d431-41f4-83e3-6061aa1fc965'
+        }
       ]
     }
   },

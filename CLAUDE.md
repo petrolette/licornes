@@ -198,6 +198,10 @@ Code local → git push → GitHub → Dokploy auto-deploy (VPS2)
 - Préchargement des sons
 - Cache agressif (site statique)
 
+### Analytics
+- **Umami** : stats.tksa.swiss
+- **Website ID** : `1ccc1eaa-d431-41f4-83e3-6061aa1fc965`
+
 ---
 
-*Projet Licornes v1.0 — 30 janvier 2026*
+*Projet Licornes v1.1 — 31 janvier 2026*
